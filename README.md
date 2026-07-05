@@ -144,23 +144,3 @@ This project is built to run entirely on free cloud tiers without requiring cred
    ```bash
    npm run dev
    ```
-
----
-
-## 💼 Portfolio Highlights
-
-### Resume Bullet Points
-* **Full-Stack AI Developer**: Built **CodeNova AI**, a secure coding mentor and interview prep platform using React, TypeScript, Spring Boot, MySQL, and LangChain4j.
-* **AI & RAG Architect**: Implemented a local RAG pipeline using Apache PDFBox, LangChain4j, and local quantized embeddings to enable PDF document chat with strict page-citation grounding.
-* **Security Engineer**: Secured REST endpoints using JWT authentication, Spring Security filter chains, IP-based rate limiting, and role-based access control.
-
-### LinkedIn Post Draft
-> 🚀 I just built and deployed **CodeNova AI**—a production-ready coding mentor and mock interview platform!
-> 
-> **Key Architecture Highlights:**
-> * 💻 **React + TS + Tailwind** client connecting to a **Spring Boot** JWT-secured backend.
-> * 🤖 **AI Mentor & Code Suite**: Intercepts code stack traces, auto-corrects bugs, and analyzes space/time complexity via the Gemini API.
-> * 📚 **Free RAG Pipeline**: Extracts PDF texts and chunks them to generate local embeddings, allowing context-grounded PDF document chats.
-> * 🛡️ **Harden Configs**: Secured with JWT refresh tokens, IP rate-limiting, and role-based access control.
-> 
-> 🔗 GitHub Repo: [Your Repository Link Here]
