@@ -1,0 +1,45 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.enum
+*.log
+
+# Mobile Tools
+.metadata
+.recommenders
+
+# BlueJ files
+*.ctxt
+
+# Grab output from Gradle
+.gradle
+/build/
+
+# Architecture-specific files
+/bin/
+
+# IDEs and editors
+.idea/
+*.iml
+*.iws
+.classpath
+.project
+.settings/
+.springBeans
+.vscode/
+
+# Private environment keys
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Frontend Node modules and builds
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+.gemini/
+

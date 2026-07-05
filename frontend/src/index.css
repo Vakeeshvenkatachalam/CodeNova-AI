@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans antialiased;
+  }
+
+  /* Custom scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border-light dark:bg-border-dark rounded-full hover:bg-content-muted-light dark:hover:bg-content-muted-dark;
+  }
+}
+
+/* AI Feature glowing background micro-styles */
+.glow-pulse {
+  position: relative;
+}
+.glow-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, #14b8a6, #6366f1);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.4;
+  filter: blur(4px);
+  animation: glowPulseAnimation 3s infinite alternate;
+}
+
+@keyframes glowPulseAnimation {
+  0% {
+    opacity: 0.2;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 0.6;
+    filter: blur(6px);
+  }
+}
