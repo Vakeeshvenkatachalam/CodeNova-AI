@@ -37,6 +37,10 @@ graph TD
 
 ## 🌟 Key Features & AI Integrations
 
+### 0. OpenRouter Fallback Model Chain 🤖
+* **AI Job**: Ensures high availability of the AI models.
+* **Architecture**: Employs `FallbackChatLanguageModel` executing failover attempts down a priority model chain (`DeepSeek R1` -> `Qwen 3` -> `Llama 3.3` -> `Gemma`). If rate-limited (HTTP 429) or service is offline, the backend catches exceptions and retries with the next model, bypassing intermediate handlers by using a custom root-level `AiProviderUnavailableException`.
+
 ### 1. AI Coding Mentor (Chat) 💬
 * **AI Job**: Serves as a technical programming tutor.
 * **Architecture**: Loads last 10 messages from MySQL chat history dynamically, passes them to Gemini for stateless conversation memory, and limits users to 5 requests per minute via IP rate limiting.
@@ -68,7 +72,16 @@ graph TD
 * **AI Job**: Tracks and displays progress metrics and weekly code execution charts.
 * **Roadmap**: Passes weekly activity metrics to Gemini to generate on-demand study recommendations.
 
-### 8. Admin Moderation Portal 🛡️
+### 8. Resume ATS Analyzer 📄
+* **AI Job**: Scans resume files to calculate keyword match densities and generates priority containerization (Docker) or caching (Redis) roadmap steps.
+
+### 9. Analytics Dashboard 📊
+* **AI Job**: Computes overall placement readiness scores based on coding problems completed and interview average scores.
+
+### 10. IDE Settings ⚙️
+* **AI Job**: Restructures coding preferences, default language syntax setups, and notification alerts.
+
+### 11. Admin Moderation Portal 🛡️
 * **AI Job**: Restricts analytics and user directories to administrators (`ROLE_ADMIN`) using Spring Security `@PreAuthorize` method security.
 * **Portal Path**: Standalone portal located at `/admin/login` guarded by a two-step gate layout:
   * **Step 1**: Portal Access Code Gate (`admin@codenova2024`)
