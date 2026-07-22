@@ -39,6 +39,12 @@ public class AdminController {
         return ResponseEntity.ok(Collections.singletonMap("message", "User access updated successfully"));
     }
 
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable("id") Long userId) {
+        adminService.deleteUser(userId);
+        return ResponseEntity.ok(Collections.singletonMap("message", "User deleted successfully"));
+    }
+
     @GetMapping("/users/{id}/progress")
     public ResponseEntity<AdminUserProgressResponse> getUserProgress(@PathVariable("id") Long userId) {
         AdminUserProgressResponse response = adminService.getUserProgress(userId);

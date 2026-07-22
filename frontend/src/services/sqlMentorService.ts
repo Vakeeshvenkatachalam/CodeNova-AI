@@ -8,6 +8,9 @@ export interface SqlGenerateResponse {
 export interface SqlReviewResponse {
   status: 'CORRECT' | 'INCORRECT';
   feedback: string;
+  optimalQuery?: string;
+  optimizationAdvice?: string;
+  learningRoadmap?: string;
 }
 
 export interface SqlExecuteResponse {

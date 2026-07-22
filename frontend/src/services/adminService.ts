@@ -46,6 +46,9 @@ export interface AdminReport {
   averageXpPerUser: number;
   languageDistribution: Record<string, number>;
   currentMonthSubmissions: number;
+  activeAilModelName?: string;
+  activeAiModelName?: string;
+  activeApiKeyStatus?: string;
 }
 
 export const adminService = {
@@ -71,6 +74,15 @@ export const adminService = {
   async getOverallReport(): Promise<AdminReport> {
     const response = await apiClient.get<AdminReport>('/api/v1/admin/report');
     return response.data;
+  },
+
+  async updateConfig(apiKey: string): Promise<{ message: string }> {
+    const response = await apiClient.post<{ message: string }>('/api/v1/admin/config', { apiKey });
+    return response.data;
+  },
+
+  async deleteUser(userId: number): Promise<void> {
+    await apiClient.delete(`/api/v1/admin/users/${userId}`);
   },
 };
 

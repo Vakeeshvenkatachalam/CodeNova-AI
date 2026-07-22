@@ -4,15 +4,22 @@ import { useAuth } from '../hooks/useAuth';
 import { authService } from '../services/authService';
 import {
   Sparkles, ArrowRight, Database, Terminal, Library, MessageSquareCode,
-  Code, UserCheck, Lock, Mail, UserPlus, Shield, Info, PhoneCall, HelpCircle, ChevronRight
+  Code, UserCheck, Lock, Mail, UserPlus, Shield, Info, PhoneCall, HelpCircle, ChevronRight, Server
 } from 'lucide-react';
 import { Card } from '../components/common/Card';
 import { Button } from '../components/common/Button';
+import { Badge } from '../components/common/Badge';
 
 export const Landing: React.FC = () => {
   const isLoggedIn = !!localStorage.getItem('token');
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
 
   // Auth Tabs & Forms state
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
@@ -146,12 +153,20 @@ export const Landing: React.FC = () => {
             </Link>
 
             {isLoggedIn ? (
-              <Link
-                to="/dashboard"
-                className="text-xs font-bold py-2 px-4 rounded-lg bg-primary hover:bg-primary-hover text-white shadow-glow-brand/10 transition-all duration-200 flex items-center gap-1"
-              >
-                Dashboard <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/dashboard"
+                  className="text-xs font-bold py-2 px-4 rounded-lg bg-primary hover:bg-primary-hover text-white shadow-glow-brand/10 transition-all duration-200 flex items-center gap-1"
+                >
+                  Dashboard <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="text-xs font-bold py-2 px-4 rounded-lg bg-gray-500/10 hover:bg-gray-500/20 text-content-secondary-light dark:text-gray-300 border border-gray-500/20 transition-all duration-200"
+                >
+                  Sign Out
+                </button>
+              </div>
             ) : (
               <div className="flex gap-2">
                 <button
@@ -230,13 +245,21 @@ export const Landing: React.FC = () => {
                     You are already authenticated. Enter your personalized cockpit workspace dashboard below.
                   </p>
                 </div>
-                <Button
-                  onClick={() => navigate('/dashboard')}
-                  variant="primary"
-                  className="w-full text-xs py-2.5 flex items-center justify-center gap-1.5 shadow-glow-brand/20"
-                >
-                  Enter Workspace <ArrowRight className="h-4 w-4" />
-                </Button>
+                <div className="flex flex-col gap-2">
+                  <Button
+                    onClick={() => navigate('/dashboard')}
+                    variant="primary"
+                    className="w-full text-xs py-2.5 flex items-center justify-center gap-1.5 shadow-glow-brand/20"
+                  >
+                    Enter Workspace <ArrowRight className="h-4 w-4" />
+                  </Button>
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full text-xs py-2 px-4 rounded-lg bg-gray-500/10 hover:bg-gray-500/20 text-content-secondary-light dark:text-gray-300 border border-gray-500/20 transition-all duration-200 font-semibold"
+                  >
+                    Sign Out
+                  </button>
+                </div>
               </Card>
             ) : (
               <Card className="p-6 bg-surface-light dark:bg-[#121927] border border-border-light dark:border-gray-800 shadow-xl relative">
@@ -502,6 +525,45 @@ export const Landing: React.FC = () => {
                   <div className="h-full bg-gradient-to-r from-primary to-ai rounded-full" style={{ width: '78%' }} />
                 </div>
               </div>
+            </Card>
+          </div>
+        </section>
+
+        {/* Section 3.5: ARCHITECTURE DIAGRAM */}
+        <section id="architecture" className="space-y-8 pt-8 text-center max-w-5xl mx-auto">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-primary/10 border border-primary/20 text-xs text-primary font-bold shadow-sm mx-auto">
+              <Server className="h-3.5 w-3.5" /> High Availability Infrastructure
+            </div>
+            <h2 className="text-3xl font-extrabold tracking-tight">AI Failover & Fallback Architecture</h2>
+            <p className="text-sm text-content-secondary-light dark:text-gray-400 max-w-xl mx-auto">
+              CodeNova AI utilizes OpenRouter APIs mapping multiple fallback instances. If a rate limit (HTTP 429) or model outage occurs, the engine automatically routes queries down the chain.
+            </p>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-4 items-stretch text-center font-mono text-[10px] leading-relaxed">
+            <Card className="p-4 flex flex-col justify-center border-2 border-primary/20 bg-primary/5">
+              <span className="font-bold text-primary mb-1">Primary Node</span>
+              <p className="text-content-primary-light dark:text-white font-sans">DeepSeek R1 (Free)</p>
+              <Badge variant="brand" className="mx-auto mt-2">Active Target</Badge>
+            </Card>
+
+            <Card className="p-4 flex flex-col justify-center border border-dashed border-border-light dark:border-gray-800">
+              <span className="font-bold text-content-muted-light dark:text-gray-400 mb-1">Secondary Node</span>
+              <p className="text-content-secondary-light dark:text-gray-300 font-sans">Qwen 3 (Free)</p>
+              <Badge variant="secondary" className="mx-auto mt-2">Failover 1</Badge>
+            </Card>
+
+            <Card className="p-4 flex flex-col justify-center border border-dashed border-border-light dark:border-gray-800">
+              <span className="font-bold text-content-muted-light dark:text-gray-400 mb-1">Tertiary Node</span>
+              <p className="text-content-secondary-light dark:text-gray-300 font-sans">Llama 3.3 (Free)</p>
+              <Badge variant="secondary" className="mx-auto mt-2">Failover 2</Badge>
+            </Card>
+
+            <Card className="p-4 flex flex-col justify-center border border-dashed border-border-light dark:border-gray-800">
+              <span className="font-bold text-content-muted-light dark:text-gray-400 mb-1">Emergency Node</span>
+              <p className="text-content-secondary-light dark:text-gray-300 font-sans">Gemma (Free)</p>
+              <Badge variant="secondary" className="mx-auto mt-2">Failover 3</Badge>
             </Card>
           </div>
         </section>

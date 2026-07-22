@@ -22,6 +22,8 @@ import { KnowledgeBase } from '../pages/KnowledgeBase';
 import { Progress } from '../pages/Progress';
 import { Profile } from '../pages/Profile';
 import { InterviewPrep } from '../pages/InterviewPrep';
+import { Settings } from '../pages/Settings';
+import { Analytics } from '../pages/Analytics';
 
 // ─── Standalone Admin Portal Pages ────────────────────────────────────────
 import { AdminLogin } from '../pages/AdminLogin';
@@ -52,6 +54,8 @@ export const AppRouter: React.FC = () => {
             <Route path="/progress" element={<Progress />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/interview" element={<InterviewPrep />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/analytics" element={<Analytics />} />
           </Route>
         </Route>
 

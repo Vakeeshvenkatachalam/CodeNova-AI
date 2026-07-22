@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InterviewSessionRepository extends JpaRepository<InterviewSession, Long> {
     long countByUserAndStatus(User user, String status);
+    java.util.List<InterviewSession> findByUserOrderByCreatedAtDesc(User user);
 }

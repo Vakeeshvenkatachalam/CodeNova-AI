@@ -12,12 +12,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.springframework.boot.test.mock.mockito.MockBean;
+import com.codenova.ai.service.KnowledgeBaseService;
+import dev.langchain4j.model.chat.ChatLanguageModel;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class SecurityIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private ChatLanguageModel chatLanguageModel;
+
+    @MockBean
+    private KnowledgeBaseService knowledgeBaseService;
 
     @Test
     public void testPublicEndpointsPermitAll() throws Exception {

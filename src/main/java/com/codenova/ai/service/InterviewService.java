@@ -32,6 +32,13 @@ public class InterviewService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Transactional(readOnly = true)
+    public List<InterviewSession> listSessions(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new SecurityException("User not found"));
+        return interviewSessionRepository.findByUserOrderByCreatedAtDesc(user);
+    }
+
     @Transactional
     public InterviewSession createSession(String email, InterviewSessionRequest request) {
         User user = userRepository.findByEmail(email)

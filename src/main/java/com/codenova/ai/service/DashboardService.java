@@ -145,7 +145,7 @@ public class DashboardService {
             userProgressRepository.save(progress);
 
             log.info("Successfully generated and cached new AI dashboard insights for user: {}", email);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("AI Insight generation failed for user: {}. Triggering default fallback.", email, e);
             
             // Graceful fallback to avoid page load crashes

@@ -91,7 +91,10 @@ public class SqlMentorService {
                 "You MUST output strictly in JSON format matching this schema:\n" +
                 "{\n" +
                 "  \"status\": \"CORRECT or INCORRECT\",\n" +
-                "  \"feedback\": \"Highlight syntax mistakes, performance gaps, or wrong filters. If correct, congratulate the user.\"\n" +
+                "  \"feedback\": \"Highlight syntax mistakes, performance gaps, or wrong filters. If correct, congratulate the user.\",\n" +
+                "  \"optimalQuery\": \"Provide the most optimal, standard syntax solution query for the requested goal.\",\n" +
+                "  \"optimizationAdvice\": \"Explain performance gaps, Join choices, query complexity, index potential, or normalization issues.\",\n" +
+                "  \"learningRoadmap\": \"List recommended subtopics (e.g., JOIN constraints, aggregation filters, or window calculations) the user should revise based on mistakes.\"\n" +
                 "}\n";
 
         String rawAiResponse = chatLanguageModel.generate(prompt);

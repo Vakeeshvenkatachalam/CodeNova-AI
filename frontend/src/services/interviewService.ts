@@ -40,4 +40,9 @@ export const interviewService = {
     });
     return response.data;
   },
+
+  async getSessions(): Promise<InterviewSession[]> {
+    const response = await apiClient.get<InterviewSession[]>('/api/v1/interview/sessions');
+    return response.data;
+  },
 };

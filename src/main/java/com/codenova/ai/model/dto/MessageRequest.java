@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class MessageRequest {
 
     @NotBlank(message = "Message content must not be blank")
-    @Size(max = 2000, message = "Message content must not exceed 2000 characters")
+    @Size(max = 50000, message = "Message content must not exceed 50000 characters")
     private String content;
 }

@@ -13,8 +13,9 @@ spring:
       max-lifetime: 1800000
   jpa:
     hibernate:
-      ddl-auto: validate
-    show-sql: false
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
     properties:
       hibernate:
         format_sql: true
@@ -37,7 +38,13 @@ jwt:
 
 gemini:
   api:
-    key: ${GEMINI_API_KEY}
+    key: ${GEMINI_API_KEY:}
+
+openrouter:
+  api:
+    key: ${OPENROUTER_API_KEY:}
+  models: ${OPENROUTER_MODELS:deepseek/deepseek-r1:free,qwen/qwen-2.5-72b-instruct:free,meta-llama/llama-3.3-70b-instruct:free}
+  temperature: 0.7
 
 cors:
   allowed-origins: ${FRONTEND_URL}

@@ -11,7 +11,9 @@ import {
   LogOut,
   X,
   User,
-  Briefcase
+  Briefcase,
+  BarChart3,
+  Settings
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -28,8 +30,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     { name: 'SQL Mentor', path: '/sql', icon: Database },
     { name: 'Knowledge Base', path: '/kb', icon: Library },
     { name: 'Mock Interview', path: '/interview', icon: Briefcase },
-    { name: 'Progress Tracker', path: '/progress', icon: TrendingUp },
+    { name: 'Analytics Board', path: '/analytics', icon: BarChart3 },
     { name: 'My Profile', path: '/profile', icon: User },
+    { name: 'IDE Settings', path: '/settings', icon: Settings },
   ];
 
   const handleLogout = () => {

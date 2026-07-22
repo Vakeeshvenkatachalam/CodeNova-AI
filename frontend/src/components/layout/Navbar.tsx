@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
-import { Sun, Moon, Menu, Bell, User, LogOut, ChevronDown, Award } from 'lucide-react';
+import { Sun, Moon, Menu, Bell, User, LogOut, ChevronDown, CheckCircle, Sparkles, X } from 'lucide-react';
 
 interface NavbarProps {
   onToggleSidebar: () => void;
@@ -13,21 +13,51 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, title }) => {
   const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const notificationsRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
+  const [notifications, setNotifications] = useState([
+    { id: 1, type: 'practice', text: 'Daily practice milestone incomplete. Solve 1 challenge to maintain your streak!', time: '10m ago', read: false },
+    { id: 2, type: 'achievement', text: '🏆 Consistency Champion badge unlocked (5 days streak!).', time: '1h ago', read: false },
+    { id: 3, type: 'interview', text: 'Mock Simulator is ready for Java Developer review.', time: '3h ago', read: false }
+  ]);
+
+  const unreadCount = notifications.filter(n => !n.read).length;
+
+  // Mark all notifications as read when opening panel
+  useEffect(() => {
+    if (notificationsOpen && unreadCount > 0) {
+      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    }
+  }, [notificationsOpen, unreadCount]);
+
+  const handleDismissNotification = (id: number) => {
+    setNotifications(prev => prev.filter(n => n.id !== id));
+  };
+
+  const handleClearAllNotifications = () => {
+    setNotifications([]);
+  };
+
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (dropdownRef.current && !dropdownRef.current.contains(target)) {
         setDropdownOpen(false);
+      }
+      if (notificationsRef.current && !notificationsRef.current.contains(target)) {
+        setNotificationsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Try to load name from local storage user key if set
   const getDisplayName = () => {
     try {
       const stored = localStorage.getItem('user');
@@ -78,13 +108,63 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, title }) => {
           )}
         </button>
 
-        {/* Notifications */}
-        <button
-          className="rounded-lg p-2 border border-border-light hover:bg-brand-light dark:border-border-dark dark:hover:bg-brand-dark transition-all duration-200"
-          aria-label="View notifications"
-        >
-          <Bell className="h-4 w-4 text-content-secondary-light dark:text-content-secondary-dark" />
-        </button>
+        {/* Notifications Center */}
+        <div className="relative" ref={notificationsRef}>
+          <button
+            onClick={() => setNotificationsOpen((prev) => !prev)}
+            className="rounded-lg p-2 border border-border-light hover:bg-brand-light dark:border-border-dark dark:hover:bg-brand-dark transition-all duration-200 relative"
+            aria-label="View notifications"
+          >
+            <Bell className="h-4 w-4 text-content-secondary-light dark:text-content-secondary-dark" />
+            {unreadCount > 0 && (
+              <span className="absolute top-1 right-1 h-1.5 w-1.5 rounded-full bg-primary" />
+            )}
+          </button>
+
+          {notificationsOpen && (
+            <div className="absolute right-0 mt-2 w-80 rounded-xl border border-border-light bg-surface-light p-3 shadow-lg dark:border-border-dark dark:bg-surface-dark z-50">
+              <div className="flex justify-between items-center border-b border-border-light pb-2 mb-2 dark:border-border-dark">
+                <span className="text-xs font-bold text-content-primary-light dark:text-content-primary-dark">Notifications</span>
+                {notifications.length > 0 ? (
+                  <div className="flex items-center gap-2">
+                    {unreadCount > 0 && (
+                      <span className="text-[9px] font-mono text-primary font-bold">Unread ({unreadCount})</span>
+                    )}
+                    <button
+                      onClick={handleClearAllNotifications}
+                      className="text-[9px] font-semibold text-danger hover:underline"
+                    >
+                      Clear All
+                    </button>
+                  </div>
+                ) : (
+                  <span className="text-[9px] text-content-muted-light dark:text-gray-500 font-mono">0 alerts</span>
+                )}
+              </div>
+              <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+                {notifications.length === 0 ? (
+                  <div className="text-center py-6 text-xs text-content-muted-light dark:text-gray-500">
+                    No new notifications.
+                  </div>
+                ) : (
+                  notifications.map((n) => (
+                    <div key={n.id} className="p-2.5 bg-brand-light dark:bg-brand-dark rounded-lg text-[10px] leading-relaxed border border-border-light dark:border-border-dark relative group">
+                      <p className="text-content-primary-light dark:text-gray-300 font-sans pr-4">{n.text}</p>
+                      <span className="text-[8px] text-content-muted-light dark:text-gray-500 mt-1 block font-mono">{n.time}</span>
+                      <button
+                        onClick={() => handleDismissNotification(n.id)}
+                        className="absolute top-2 right-2 text-content-muted-light hover:text-danger dark:text-gray-500 dark:hover:text-red-400 opacity-60 hover:opacity-100 transition-opacity"
+                        title="Dismiss"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Profile Avatar Dropdown */}
         <div className="relative border-l border-border-light pl-4 dark:border-border-dark" ref={dropdownRef}>

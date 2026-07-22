@@ -97,6 +97,15 @@ public class AdminService {
         log.warn("Admin toggled user ID={} action={}", id, action);
     }
 
+    @Transactional
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException("User not found: ID " + id);
+        }
+        userRepository.deleteById(id);
+        log.warn("Admin deleted user ID: {}", id);
+    }
+
     // ─── Individual Student Progress ─────────────────────────────────────────
 
     @Transactional(readOnly = true)
@@ -188,10 +197,17 @@ public class AdminService {
                 .filter(s -> s.getCreatedAt() != null && s.getCreatedAt().isAfter(firstOfMonth))
                 .count();
 
-        // Language strength distribution — one pass per user, with null safety
+        // Language strength distribution — optimized in-memory pass to avoid N+1 queries
+        List<User> allUsers = userRepository.findAll();
+        List<Submission> allPassedSubmissions = submissionRepository.findByStatus("PASSED");
+
+        Map<Long, List<Submission>> passedByUserId = allPassedSubmissions.stream()
+                .filter(s -> s.getUser() != null)
+                .collect(Collectors.groupingBy(s -> s.getUser().getId()));
+
         Map<String, Long> distribution = new HashMap<>();
-        for (User u : userRepository.findAll()) {
-            List<Submission> passed = submissionRepository.findByUserAndStatus(u, "PASSED");
+        for (User u : allUsers) {
+            List<Submission> passed = passedByUserId.getOrDefault(u.getId(), Collections.emptyList());
             if (passed.isEmpty()) {
                 // Count the preferred language even for non-solving users
                 String lang = u.getPreferredLanguage() != null ? u.getPreferredLanguage() : "Java";

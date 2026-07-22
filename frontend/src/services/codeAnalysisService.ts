@@ -34,4 +34,16 @@ export const codeAnalysisService = {
     const response = await apiClient.post<AutocompleteResponse>('/api/v1/analysis/autocomplete', { codeBeforeCursor, language });
     return response.data;
   },
+
+  async runCode(code: string, language: string): Promise<RunCodeResponse> {
+    const response = await apiClient.post<RunCodeResponse>('/api/v1/analysis/run', { code, language });
+    return response.data;
+  },
 };
+
+export interface RunCodeResponse {
+  stdout: string;
+  stderr: string;
+  exitCode: number;
+  executionTimeMs: number;
+}

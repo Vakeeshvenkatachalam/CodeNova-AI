@@ -36,4 +36,14 @@ public class CodeAnalysisController {
         AutocompleteResponse response = codeAnalysisService.autocomplete(request);
         return ResponseEntity.ok(response);
     }
+
+    @Autowired
+    private com.codenova.ai.service.CodeRunnerService codeRunnerService;
+
+    @PostMapping("/run")
+    public ResponseEntity<com.codenova.ai.model.dto.RunCodeResponse> runCode(
+            @Valid @RequestBody CodeRequest request) {
+        com.codenova.ai.model.dto.RunCodeResponse response = codeRunnerService.runCode(request.getCode(), request.getLanguage());
+        return ResponseEntity.ok(response);
+    }
 }

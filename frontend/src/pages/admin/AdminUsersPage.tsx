@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { adminService, UserDetail, AdminUserProgress } from '../../services/adminService';
 import { Badge } from '../../components/common/Badge';
 import {
-  Users, User, ArrowUpCircle, ArrowDownCircle, X,
+  Users, User, ArrowUpCircle, ArrowDownCircle, X, Trash2,
   Search, ChevronUp, ChevronDown, Award, MessageSquare, BookOpen
 } from 'lucide-react';
 
@@ -43,6 +43,26 @@ export const AdminUsersPage: React.FC = () => {
       await fetchUsers();
     } catch (err) {
       console.error(err);
+    } finally {
+      setUpdatingUserId(null);
+    }
+  };
+
+  const handleDeleteUser = async (id: number, email: string) => {
+    if (!window.confirm(`Are you sure you want to delete student "${email}"? This action cannot be undone and will delete all their code submissions and history.`)) {
+      return;
+    }
+
+    setUpdatingUserId(id);
+    try {
+      await adminService.deleteUser(id);
+      if (selectedUser && selectedUser.id === id) {
+        setSelectedUser(null);
+      }
+      await fetchUsers();
+    } catch (err) {
+      console.error(err);
+      alert('Failed to delete student.');
     } finally {
       setUpdatingUserId(null);
     }
@@ -143,6 +163,13 @@ export const AdminUsersPage: React.FC = () => {
                           className="text-[10px] font-bold px-2.5 py-1 bg-primary/10 text-primary border border-primary/20 rounded-lg hover:bg-primary/20 transition-colors"
                         >
                           View Progress
+                        </button>
+                        <button
+                          onClick={() => handleDeleteUser(usr.id, usr.email)}
+                          disabled={updatingUserId === usr.id}
+                          className="text-[10px] font-bold px-2.5 py-1 bg-red-500/10 text-red-400 border border-red-500/20 rounded-lg hover:bg-red-500/20 transition-colors flex items-center gap-1 disabled:opacity-50"
+                        >
+                          <Trash2 className="h-3 w-3" /> Delete
                         </button>
                         <button
                           onClick={() => handleToggleAccess(usr.id, usr.role)}

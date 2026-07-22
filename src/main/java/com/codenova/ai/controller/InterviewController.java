@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/interview")
@@ -17,6 +18,12 @@ public class InterviewController {
 
     @Autowired
     private InterviewService interviewService;
+
+    @GetMapping("/sessions")
+    public ResponseEntity<List<com.codenova.ai.model.entity.InterviewSession>> listSessions(Principal principal) {
+        List<com.codenova.ai.model.entity.InterviewSession> response = interviewService.listSessions(principal.getName());
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/sessions")
     public ResponseEntity<InterviewSession> createSession(

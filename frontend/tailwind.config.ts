@@ -12,15 +12,15 @@ const config: Config = {
         // Light & Dark canvas tokens
         brand: {
           light: '#f8fafc', // slate-50
-          dark: '#090d16',  // premium black-slate
+          dark: '#040406',  // premium midnight anthracite
         },
         surface: {
           light: '#ffffff',
-          dark: '#0f172a',  // slate-900
+          dark: '#0b0b0f',  // clean matte graphite surface
         },
         border: {
           light: '#e2e8f0', // slate-200
-          dark: '#1e293b',  // slate-800
+          dark: '#161622',  // ultra-thin sleek border lines
         },
         // Core functional colors
         primary: {

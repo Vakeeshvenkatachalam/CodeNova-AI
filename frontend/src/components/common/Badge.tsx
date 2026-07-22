@@ -13,7 +13,7 @@ export const Badge: React.FC<BadgeProps> = ({
 }) => {
   const baseStyle = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium font-sans border transition-all duration-200';
 
-  const variants = {
+  const variants: Record<string, string> = {
     brand: 'bg-primary/10 border-primary/20 text-primary',
     ai: 'bg-ai/10 border-ai/20 text-ai shadow-glow-ai/10',
     success: 'bg-success/10 border-success/20 text-success',
