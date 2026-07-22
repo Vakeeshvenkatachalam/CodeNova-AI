@@ -16,3 +16,5 @@ jwt:
 gemini:
   api:
     key: mock-gemini-key
+cors:
+  allowed-origins: http://localhost:5173
