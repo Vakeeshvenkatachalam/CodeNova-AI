@@ -16,7 +16,7 @@ public class GeminiConfig {
     @Value("${gemini.api.key:}")
     private String geminiApiKey;
 
-    @Value("${openrouter.models}")
+    @Value("${openrouter.models:deepseek/deepseek-r1:free,qwen/qwen-2.5-72b-instruct:free,meta-llama/llama-3.3-70b-instruct:free}")
     private String rawModelNames;
 
     @Value("${openrouter.temperature:0.7}")

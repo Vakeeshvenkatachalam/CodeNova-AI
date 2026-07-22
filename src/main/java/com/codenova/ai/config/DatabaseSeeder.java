@@ -55,6 +55,31 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .build());
         }
 
+        if (!userRepository.existsByEmail("vikas@codenova.com")) {
+            log.info("Seeding test student account: vikas@codenova.com");
+            User vikas = User.builder()
+                    .email("vikas@codenova.com")
+                    .passwordHash(passwordEncoder.encode("Password123!"))
+                    .role("ROLE_USER")
+                    .name("Vikas Student")
+                    .preferredLanguage("Java")
+                    .build();
+            userRepository.save(vikas);
+
+            streakRepository.save(Streak.builder()
+                    .user(vikas)
+                    .currentStreak(1)
+                    .maxStreak(1)
+                    .build());
+
+            userProgressRepository.save(UserProgress.builder()
+                    .user(vikas)
+                    .totalXp(100)
+                    .level(1)
+                    .modulesCompletedJson("[]")
+                    .build());
+        }
+
         // Seed default Admin user if not exists
         if (!userRepository.existsByEmail("admin@codenova.ai")) {
             log.info("Seeding default administrator account: admin@codenova.ai");

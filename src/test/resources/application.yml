@@ -16,5 +16,10 @@ jwt:
 gemini:
   api:
     key: mock-gemini-key
+openrouter:
+  api:
+    key: mock-openrouter-key
+  models: deepseek/deepseek-r1:free,qwen/qwen-2.5-72b-instruct:free,meta-llama/llama-3.3-70b-instruct:free
+  temperature: 0.7
 cors:
   allowed-origins: http://localhost:5173
