@@ -16,6 +16,7 @@ export interface AdminMetrics {
 }
 
 export interface AdminUserProgress {
+  id?: number;
   email: string;
   name: string | null;
   bio: string | null;

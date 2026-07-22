@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface BadgeProps {
-  variant?: 'brand' | 'ai' | 'success' | 'warning' | 'danger' | 'info';
+  variant?: 'brand' | 'ai' | 'success' | 'warning' | 'danger' | 'info' | 'secondary';
   children: React.ReactNode;
   className?: string;
 }
@@ -20,6 +20,7 @@ export const Badge: React.FC<BadgeProps> = ({
     warning: 'bg-warning/10 border-warning/20 text-warning',
     danger: 'bg-danger/10 border-danger/20 text-danger',
     info: 'bg-info/10 border-info/20 text-info',
+    secondary: 'bg-surface-light border-border-light text-content-secondary-light dark:bg-surface-dark dark:border-border-dark dark:text-content-secondary-dark',
   };
 
   return (

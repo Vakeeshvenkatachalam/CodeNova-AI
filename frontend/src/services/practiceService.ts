@@ -14,6 +14,7 @@ export interface PracticeProblem {
 export interface PracticeSubmitResponse {
   status: 'PASSED' | 'FAILED';
   feedback: string;
+  message?: string;
   pointsEarned: number;
 }
 

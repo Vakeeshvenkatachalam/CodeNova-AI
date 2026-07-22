@@ -8,7 +8,7 @@ import { chatService } from '../services/chatService';
 import { CodeRenderer } from '../components/common/CodeRenderer';
 import {
   Terminal, Settings, Play, Sparkles, AlertCircle, RefreshCw, Cpu,
-  Code2, CheckCircle, TerminalSquare, MessageSquareCode, GitCompare, BookOpen, HelpCircle, AlertSquare
+  Code2, CheckCircle, TerminalSquare, MessageSquareCode, GitCompare, BookOpen, HelpCircle
 } from 'lucide-react';
 
 export const CodeWorkspace: React.FC = () => {
@@ -153,8 +153,8 @@ export const CodeWorkspace: React.FC = () => {
         if (!savedMessages) {
           const logs = await chatService.getMessages(workspaceConv.id);
           if (logs.length > 0) {
-            const mapped = logs.map(msg => ({
-              sender: msg.sender === 'USER' ? 'user' : 'mentor',
+            const mapped: Array<{ sender: 'user' | 'mentor'; text: string }> = logs.map(msg => ({
+              sender: (msg.sender === 'USER' ? 'user' : 'mentor') as 'user' | 'mentor',
               text: msg.content.startsWith('[Context:') 
                 ? msg.content.substring(msg.content.indexOf(']\n\n') + 3)
                 : msg.content
